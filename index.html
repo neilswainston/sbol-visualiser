@@ -1,0 +1,85 @@
+<!doctype html>
+<html>
+<head>
+	<title>SBOL Visualiser</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">
+	<link rel="stylesheet" href="style.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+	<script	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular-animate.js"></script>
+    <script src="http://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-1.3.3.js"></script>
+	<script src="module.js"></script>
+	<script src="ctrl_bundle.js"></script>
+</head>
+<body data-ng-app="sbolVisualiserApp" data-ng-controller="sbolVisualiserCtrl">
+	<!-- Navigation bar -->
+	<nav class="navbar navbar-default">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="http://www.synbiochem.co.uk">
+					<span><img alt="SYNBIOCHEM" src="favicon.ico"></span>
+					SBOL Visualiser
+				</a>
+			</div>
+			<form class="navbar-form navbar-left">
+				<input class="form-control" data-ng-model="url">
+			</form>
+		</div>
+	</nav>
+
+	<div class="col-md-6">
+		<div class="panel panel-default">
+	  		<div class="panel-heading">Overview</div>
+	  		<div class="panel-body">
+		  		<div data-ng-repeat="compdef in doc.componentDefinitions">
+					<div data-ng-if="compdef.components.length > 0">
+						<div class="title">{{compdef.name}}</div>
+						<div class="component SO{{seqAnnot.component.definition.roles[0].path().replace('/so/SO:', '')}}" 
+							data-ng-mouseover="setDefinition(seqAnnot.component.definition)"
+							data-ng-mouseout="setDefinition(null)"
+							data-ng-repeat="seqAnnot in compdef.sequenceAnnotations | orderBy: locations[0].start"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="col-md-6">
+		<div class="panel panel-default">
+	  		<div class="panel-heading">Details</div>
+	  		<div class="panel-body">
+		  		<table class="table table-condensed table-striped">
+					<tbody>
+						<tr>
+							<td>Name</td>
+							<td>{{def.name}}</td>
+						</tr>
+						<tr>
+							<td>Description</td>
+							<td>{{def.description}}</td>
+						</tr>
+						<tr>
+							<td>Types</td>
+							<td>
+								<div data-ng-repeat="type in def.types">
+									{{type.toString()}}
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td>Sequences</td>
+							<td>
+								<div data-ng-repeat="sequence in def.sequences">
+									{{sequence.elements | uppercase }}
+								</div>		
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

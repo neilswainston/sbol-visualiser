@@ -1,0 +1,1 @@
+var sbolVisualiserApp = angular.module("sbolVisualiserApp", []);
